@@ -2,6 +2,7 @@
   <dictionary name="neo">
     <words>
       <w>xlsm</w>
+      <w>xlsx</w>
     </words>
   </dictionary>
 </component>

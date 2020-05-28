@@ -1,7 +1,10 @@
+import os
 from openpyxl import load_workbook, Workbook
 from openpyxl.worksheet.worksheet import Worksheet
 
-wb: Workbook = load_workbook(filename='458041ff4b436358.xlsx')
+filename = "13"
+
+wb: Workbook = load_workbook(filename=filename + '.xlsx')
 ws: Worksheet = wb.active
 
 res: dict = {}
@@ -9,7 +12,6 @@ res: dict = {}
 for i, cells in enumerate(ws.iter_rows()):
     if i != 0:
         person_name = cells[12].value
-        print(person_name)
         if person_name is not None:
             if person_name not in res:
                 res[person_name] = []
@@ -20,12 +22,16 @@ for i, cells in enumerate(ws.iter_rows()):
                 ],
             )
 
-for key, value in res.items():
+if not os.path.exists(filename):
+    os.makedirs(filename)
+
+for name, contents in res.items():
     wbb: Workbook = Workbook()
     wss: Worksheet = wbb.active
-    for v in value:
-        wss.append(v)
-    wbb.save(filename="./res/"+key+".xlsx")
+    for rows in contents:
+        print(rows)
+        wss.append(rows)
+    wbb.save(filename="./{path}/{key}.xlsx".format(path=filename, key=name))
     wbb.close()
 
 wb.close()
